@@ -38,5 +38,20 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
-    
+        // POST /accounts/{id}/deposit
+    @PostMapping("/{id}/deposit")
+    public Account deposit(
+            @PathVariable Long id,
+            @RequestBody MoneyRequest request) {
+        return accountService.deposit(id, request.getAmount());
+    }
+
+    // POST /accounts/{id}/withdraw
+    @PostMapping("/{id}/withdraw")
+    public Account withdraw(
+            @PathVariable Long id,
+            @RequestBody MoneyRequest request) {
+        return accountService.withdraw(id, request.getAmount());
+    }
+
 }
