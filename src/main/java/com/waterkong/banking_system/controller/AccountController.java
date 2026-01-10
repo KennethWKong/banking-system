@@ -57,4 +57,15 @@ public class AccountController {
         return accountService.withdraw(id, request.getAmount());
     }
 
+    // POST / accounts/transfer
+    @PostMapping("/transfer")
+    public Account transfer(@RequestBody TransferRequest request) {
+        return accountService.transfer(
+                request.getFromId(),
+                request.getToId(),
+                request.getAmount()
+        );
+    }
+
+
 }
