@@ -57,6 +57,15 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    public Account transfer(Long fromId, Long toId, BigDecimal amount) {
+        // Withdraw first (will throw if not enough funds)
+        Account fromAccount = withdraw(fromId, amount);
+
+        // Then deposit into the other account
+        Account toAccount = deposit(toId, amount);
+
+        return fromAccount; // return sender, could return both
+    }
     
 
 }
