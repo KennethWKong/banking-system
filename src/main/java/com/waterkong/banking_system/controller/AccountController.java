@@ -9,6 +9,9 @@ import java.util.List;
 
 import com.waterkong.banking_system.dto.MoneyRequest;
 
+import com.waterkong.banking_system.dto.TransferRequest;
+
+
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
