@@ -8,6 +8,10 @@ import java.util.List;
 
 import java.math.BigDecimal;
 
+import com.waterkong.banking_system.exception.AccountNotFoundException;
+import com.waterkong.banking_system.exception.NotEnoughFundsException;
+
+
 // Holds the core logic for working with accounts.
 @Service
 public class AccountService {
@@ -28,7 +32,7 @@ public class AccountService {
     // Look up a single account, or throw if it doesn't exist.
     public Account getAccount(Long id) {
         return accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found: " + id));
+                .orElseThrow(() -> new AccountNotFoundException("Account " + id + " not found"));
     }
 
     // Return all accounts.
@@ -50,7 +54,7 @@ public class AccountService {
 
         // Do not allow negative balance (business rule)
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new RuntimeException("Insufficient funds");
+            throw new NotEnoughFundsException("Insufficient funds in account " + id);
         }
 
         account.setBalance(newBalance);
