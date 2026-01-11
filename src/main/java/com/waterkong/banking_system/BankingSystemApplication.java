@@ -14,3 +14,5 @@ public class BankingSystemApplication {
 
 //tested account 1 and 2, withdraws and deposits and transfers
 //dowloanded jq for cleaner JSON formatting 
+
+//exceptions were created and tested, and they worked as intended with clean JSON custom messages.
