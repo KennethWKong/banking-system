@@ -21,11 +21,15 @@ import com.waterkong.banking_system.repository.TransactionRepository;
 public class AccountService {
 
     private final AccountRepository accountRepository;
-
-    // Spring injects an AccountRepository here automatically.
-    public AccountService(AccountRepository accountRepository) {
+    //added transaction repository
+    private final TransactionRepository transactionRepository;
+//updated constructor to have transaction repository
+    public AccountService(AccountRepository accountRepository,
+                        TransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
     }
+
 
     // Create a new account with a starting balance of 0.
     public Account createAccount(String ownerName) {
@@ -76,13 +80,7 @@ public class AccountService {
     }
 
 
-    private final TransactionRepository transactionRepository;
-
-    public AccountService(AccountRepository accountRepository,
-                        TransactionRepository transactionRepository) {
-        this.accountRepository = accountRepository;
-        this.transactionRepository = transactionRepository;
-    }
+    
 
     
 
