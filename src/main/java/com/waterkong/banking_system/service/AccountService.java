@@ -11,6 +11,10 @@ import java.math.BigDecimal;
 import com.waterkong.banking_system.exception.AccountNotFoundException;
 import com.waterkong.banking_system.exception.NotEnoughFundsException;
 
+import com.waterkong.banking_system.model.Transaction;
+import com.waterkong.banking_system.model.TransactionType;
+import com.waterkong.banking_system.repository.TransactionRepository;
+
 
 // Holds the core logic for working with accounts.
 @Service
