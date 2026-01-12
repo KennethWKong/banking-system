@@ -48,12 +48,20 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-        // Add money to an account
+    // Add money to an account
+    //update to record transaction
     public Account deposit(Long id, BigDecimal amount) {
-        Account account = getAccount(id); // Find account or error
-        account.setBalance(account.getBalance().add(amount)); // Add funds
-        return accountRepository.save(account); // Persist to DB
+        Account account = getAccount(id);
+
+        BigDecimal newBalance = account.getBalance().add(amount);
+        account.setBalance(newBalance);
+        Account saved = accountRepository.save(account);
+
+        recordTransaction(saved, TransactionType.DEPOSIT, amount, "Deposit");
+
+        return saved;
     }
+
 
     // Remove money from an account
     public Account withdraw(Long id, BigDecimal amount) {
