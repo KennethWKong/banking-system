@@ -74,6 +74,16 @@ public class AccountService {
 // return sender, could return both
         return fromAccount; 
     }
+
+
+    private final TransactionRepository transactionRepository;
+
+    public AccountService(AccountRepository accountRepository,
+                        TransactionRepository transactionRepository) {
+        this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
+    }
+
     
 
 }
