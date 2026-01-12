@@ -49,7 +49,7 @@ public class AccountService {
     }
 
     // Add money to an account
-    //update to record transaction
+    //update deposit to record transaction
     public Account deposit(Long id, BigDecimal amount) {
         Account account = getAccount(id);
 
@@ -64,18 +64,23 @@ public class AccountService {
 
 
     // Remove money from an account
+    // update withdraw to record transaction
     public Account withdraw(Long id, BigDecimal amount) {
         Account account = getAccount(id);
-        BigDecimal newBalance = account.getBalance().subtract(amount);
 
-        // Do not allow negative balance (business rule)
+        BigDecimal newBalance = account.getBalance().subtract(amount);
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new NotEnoughFundsException("Insufficient funds in account " + id);
         }
 
         account.setBalance(newBalance);
-        return accountRepository.save(account);
+        Account saved = accountRepository.save(account);
+
+        recordTransaction(saved, TransactionType.WITHDRAWAL, amount, "Withdrawal");
+
+        return saved;
     }
+
 
     //add helper method recordTransaction(...)
     private void recordTransaction(Account account,TransactionType type, BigDecimal amount,String description) {
@@ -84,20 +89,25 @@ public class AccountService {
     }
 
 
-
+    // Transfer money from one account to another
+    // update transfer to record transactions
     public Account transfer(Long fromId, Long toId, BigDecimal amount) {
-        // Withdraw first (will throw if not enough funds)
         Account fromAccount = withdraw(fromId, amount);
-
-        // Then deposit into the other account
         Account toAccount = deposit(toId, amount);
-        // return sender, could return both
-        return fromAccount; 
+
+        recordTransaction(fromAccount,
+                TransactionType.TRANSFER_OUT,
+                amount,
+                "Transfer to account " + toId);
+
+        recordTransaction(toAccount,
+                TransactionType.TRANSFER_IN,
+                amount,
+                "Transfer from account " + fromId);
+
+        return fromAccount;
     }
 
 
-    
-
-    
 
 }
