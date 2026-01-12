@@ -69,13 +69,21 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    //add helper method recordTransaction(...)
+    private void recordTransaction(Account account,TransactionType type, BigDecimal amount,String description) {
+        Transaction tx = new Transaction(account, type, amount, description);
+        transactionRepository.save(tx);
+    }
+
+
+
     public Account transfer(Long fromId, Long toId, BigDecimal amount) {
         // Withdraw first (will throw if not enough funds)
         Account fromAccount = withdraw(fromId, amount);
 
         // Then deposit into the other account
         Account toAccount = deposit(toId, amount);
-// return sender, could return both
+        // return sender, could return both
         return fromAccount; 
     }
 
