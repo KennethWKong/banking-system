@@ -92,9 +92,13 @@ public class AccountService {
     // Transfer money from one account to another
     // update transfer to record transactions such as in/out
     public Account transfer(Long fromId, Long toId, BigDecimal amount) {
+        // Withdraw from sender (will throw if not enough funds)
         Account fromAccount = withdraw(fromId, amount);
+
+        // Deposit into receiver
         Account toAccount = deposit(toId, amount);
 
+        // Record extra transfer-specific rows
         recordTransaction(fromAccount,
                 TransactionType.TRANSFER_OUT,
                 amount,
@@ -105,8 +109,10 @@ public class AccountService {
                 amount,
                 "Transfer from account " + fromId);
 
+        // We return the sender, could also return both in a DTO
         return fromAccount;
     }
+
 
     // Get all transactions for a specific account
     public List<Transaction> getTransactionsForAccount(Long accountId) {
