@@ -11,6 +11,8 @@ import com.waterkong.banking_system.dto.MoneyRequest;
 
 import com.waterkong.banking_system.dto.TransferRequest;
 
+import com.waterkong.banking_system.model.Transaction;
+
 
 @RestController
 @RequestMapping("/accounts")
@@ -67,5 +69,10 @@ public class AccountController {
         );
     }
 
+    // GET /accounts/{id}/transactions
+    @GetMapping("/accounts/{id}/transactions")
+    public List<Transaction> getTransactions(@PathVariable Long id) {
+        return accountService.getTransactionsForAccount(id);
+    }
 
 }

@@ -90,7 +90,7 @@ public class AccountService {
 
 
     // Transfer money from one account to another
-    // update transfer to record transactions
+    // update transfer to record transactions such as in/out
     public Account transfer(Long fromId, Long toId, BigDecimal amount) {
         Account fromAccount = withdraw(fromId, amount);
         Account toAccount = deposit(toId, amount);
@@ -106,6 +106,13 @@ public class AccountService {
                 "Transfer from account " + fromId);
 
         return fromAccount;
+    }
+
+    // Get all transactions for a specific account
+    public List<Transaction> getTransactionsForAccount(Long accountId) {
+        // ensures 404 if account missing
+        getAccount(accountId); 
+        return transactionRepository.findByAccountIdOrderByCreatedAtDesc(accountId);
     }
 
 
